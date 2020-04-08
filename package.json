@@ -10,6 +10,10 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
+    "engines": {
+        "node": "12.14.1",
+        "npm": "6.13.4"
+    },
     "dependencies": {
         "body-parser": "^1.19.0",
         "braintree": "^2.22.0",
