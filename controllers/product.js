@@ -23,9 +23,10 @@ exports.create = (req, res) => {
         }
 
         let product = new Product(fields);
-
+        // 1kb = 1000
+        // 1mb = 1000000
         if (files.photo) {
-            // check photo size
+            // console.log("FILES PHOTO: ", files.photo);
             if (files.photo.size > 1000000) {
                 return res.status(400).json({
                     error: "Image should be less than 1mb in size",
@@ -37,6 +38,7 @@ exports.create = (req, res) => {
 
         product.save((err, result) => {
             if (err) {
+                // console.log('PRODUCT CREATE ERROR ', err);
                 return res.status(400).json({
                     error: errorHandler(err),
                 });
@@ -101,9 +103,10 @@ exports.update = (req, res) => {
 
         let product = req.product;
         product = _.extend(product, fields);
-
+        // 1kb = 1000
+        // 1mb = 1000000
         if (files.photo) {
-            // check photo size
+            // console.log("FILES PHOTO: ", files.photo);
             if (files.photo.size > 1000000) {
                 return res.status(400).json({
                     error: "Image should be less than 1mb in size",
@@ -184,7 +187,11 @@ exports.listCategories = (req, res) => {
 };
 
 /**
- * search products based on price range
+ * list products by search
+ * we will implement product search in react frontend
+ * we will show categories in checkbox and price range in radio buttons
+ * as the user clicks on those checkbox and radio buttons
+ * we will make api request and show the products to users based on what he wants
  */
 exports.listBySearch = (req, res) => {
     let order = req.body.order ? req.body.order : "desc";
@@ -195,12 +202,12 @@ exports.listBySearch = (req, res) => {
 
     // console.log(order, sortBy, limit, skip, req.body.filters)
     // console.log("findArgs", findArgs);
-    console.log(req.body);
+    // console.log(req.body);
 
     for (let key in req.body.filters) {
-        console.log(key);
+        // console.log(key);
         if (req.body.filters[key].length > 0) {
-            if (key == "price") {
+            if (key === "price") {
                 // gte -  greater than price [0-10]
                 // lte - less than
                 console.log(req.body.filters[key][0]);

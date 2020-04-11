@@ -8,13 +8,37 @@ exports.signup = (req, res) => {
     const user = new User(req.body);
     user.save((err, user) => {
         if (err) {
-            return res.status(400).json({ err: errorHandler(err) });
+            return res.status(400).json({
+                err: errorHandler(err),
+                // error: 'Email is taken'
+            });
         }
         user.salt = undefined;
         user.hashed_password = undefined;
         res.json({ user });
     });
 };
+
+// NOTES: from final-improvements
+// using async/await
+// exports.signup = async (req, res) => {
+//     try {
+//         const user = await new User(req.body);
+//         console.log(req.body);
+
+//         await user.save((err, user) => {
+//             if (err) {
+//                 // return res.status(400).json({ err });
+//                 return res.status(400).json({
+//                     error: 'Email is taken'
+//                 });
+//             }
+//             res.status(200).json({ user });
+//         });
+//     } catch (err) {
+//         console.error(err.message);
+//     }
+// };
 
 exports.signin = (req, res) => {
     // find user based on email
