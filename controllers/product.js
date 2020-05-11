@@ -266,7 +266,9 @@ exports.listSearch = (req, res) => {
                 });
             }
             res.json(products);
-        }).select("-photo");
+        })
+            .select("-photo")
+            .populate("category");
     }
 };
 
