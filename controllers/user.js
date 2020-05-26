@@ -22,7 +22,7 @@ exports.read = (req, res) => {
 
 exports.update = (req, res) => {
     // console.log('UPDATE USER - req.user', req.user, 'UPDATE DATA', req.body);
-    const { name, password } = req.body;
+    const { name, password, address } = req.body;
 
     User.findOne({ _id: req.profile._id }, (err, user) => {
         if (err || !user) {
@@ -30,12 +30,29 @@ exports.update = (req, res) => {
                 error: "User not found!",
             });
         }
+
         if (!name) {
             return res.status(400).json({
                 error: "Name is required!",
             });
+        } else if (name.length > 32) {
+            return res.status(400).json({
+                error: "Name is not longer than 32 characters!",
+            });
         } else {
             user.name = name;
+        }
+
+        if (!address) {
+            return res.status(400).json({
+                error: "Address is required!",
+            });
+        } else if (address.length > 200) {
+            return res.status(400).json({
+                error: "Address is not longer than 200 characters!",
+            });
+        } else {
+            user.address = address;
         }
 
         if (password) {
